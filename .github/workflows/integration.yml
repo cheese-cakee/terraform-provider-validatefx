@@ -42,8 +42,9 @@ jobs:
         run: |
           docker run --rm \
             -v "${{ github.workspace }}/integration":/workspace \
+            -w /workspace \
             local/terraform-provider-validatefx \
-            /bin/sh -lc "terraform init -input=false && terraform apply -auto-approve -input=false && terraform destroy -auto-approve -input=false"
+            /bin/sh -ec 'terraform init -input=false && terraform apply -auto-approve -input=false && terraform destroy -auto-approve -input=false'
 
       - name: Upload Terraform logs
         if: always()
