@@ -1,0 +1,28 @@
+terraform {
+  required_providers {
+    validatefx = {
+      source  = "The-DevOps-Daily/validatefx"
+      version = ">= 0.0.1"
+    }
+  }
+}
+
+provider "validatefx" {}
+
+locals {
+  emails = [
+    "alice@example.com",
+    "bob_at_example.com",
+  ]
+
+  checked_emails = [
+    for email in local.emails : {
+      address = email
+      valid   = validatefx_email(email)
+    }
+  ]
+}
+
+output "checked_emails" {
+  value = local.checked_emails
+}
