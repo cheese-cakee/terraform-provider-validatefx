@@ -35,10 +35,15 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-go-
 
-      - name: Build and run integration scenario
+      - name: Build Docker image
+        run: docker build -t local/terraform-provider-validatefx -f Dockerfile .
+
+      - name: Run integration scenario
         run: |
-          docker compose version
-          ./scripts/run_integration.sh
+          docker run --rm \
+            -v "${{ github.workspace }}/integration":/workspace \
+            local/terraform-provider-validatefx \
+            /bin/sh -lc "terraform init -input=false && terraform apply -auto-approve -input=false && terraform destroy -auto-approve -input=false"
 
       - name: Upload Terraform logs
         if: always()
