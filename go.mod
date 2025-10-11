@@ -2,7 +2,10 @@ module github.com/The-DevOps-Daily/terraform-provider-validatefx
 
 go 1.25.2
 
-require github.com/hashicorp/terraform-plugin-framework v1.16.1
+require (
+	github.com/google/uuid v1.6.0
+	github.com/hashicorp/terraform-plugin-framework v1.16.1
+)
 
 require (
 	github.com/fatih/color v1.15.0 // indirect
