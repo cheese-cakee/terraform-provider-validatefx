@@ -3,8 +3,9 @@ SHELL := /bin/bash
 
 COMPOSE ?= docker compose
 GOLANGCI_LINT ?= golangci-lint
+TFPLUGINDOCS ?= $(shell go env GOPATH)/bin/tfplugindocs
 
-.PHONY: help deps tidy fmt build test lint integration docker-build clean
+.PHONY: help deps tidy fmt build test lint docs integration docker-build clean
 
 help: ## Show available targets and short descriptions
 	@awk 'BEGIN {FS = ":.*##"} /^[a-zA-Z_-]+:.*##/ {printf "%-18s %s\n", $$1, $$2}' $(MAKEFILE_LIST)
@@ -32,6 +33,14 @@ lint: ## Run golangci-lint (requires golangci-lint in PATH)
 	fi
 	$(GOLANGCI_LINT) run ./...
 
+Docs: ## Generate provider documentation using tfplugindocs
+	@if [ ! -x "$(TFPLUGINDOCS)" ]; then \
+		echo "tfplugindocs not found. Install with:" >&2; \
+		echo "  go install github.com/hashicorp/terraform-plugin-docs/cmd/tfplugindocs@v0.19.2" >&2; \
+		exit 1; \
+	fi
+	"$(TFPLUGINDOCS)" generate
+
 integration: ## Execute Terraform integration scenario via Docker Compose
 	@status=0; \
 	$(COMPOSE) build terraform || status=$$?; \
@@ -47,3 +56,4 @@ clean: ## Remove build artifacts and local Terraform state
 	rm -rf bin
 	$(COMPOSE) down -v 2>/dev/null || true
 	rm -rf integration/.terraform
+	rm -rf .terraform .terraform.lock.hcl
