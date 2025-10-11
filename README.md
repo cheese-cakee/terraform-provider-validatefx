@@ -1,5 +1,10 @@
 # 🧩 Terraform Provider - ValidateFX
 
+[![Go Version](https://img.shields.io/github/go-mod/go-version/The-DevOps-Daily/terraform-provider-validatefx?style=flat-square)](https://go.dev/)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/The-DevOps-Daily/terraform-provider-validatefx/test.yml?branch=main&style=flat-square)](https://github.com/The-DevOps-Daily/terraform-provider-validatefx/actions)
+[![License](https://img.shields.io/github/license/The-DevOps-Daily/terraform-provider-validatefx?style=flat-square)](https://github.com/The-DevOps-Daily/terraform-provider-validatefx/blob/main/LICENSE)
+[![Terraform Registry](https://img.shields.io/badge/terraform-registry-623CE4?style=flat-square&logo=terraform)](https://registry.terraform.io/providers/thedevopsdaily/validatefx/latest)
+
 Reusable validation functions for Terraform, built with the latest [Terraform Plugin Framework](https://github.com/hashicorp/terraform-plugin-framework).
 
 ValidateFX lets you write cleaner, more expressive validations using functions like `is_email`, `is_uuid`, and `is_semver`.
@@ -27,7 +32,7 @@ variable "email" {
     error_message = "Must be a valid email address"
   }
 }
-````
+```
 
 ---
 
@@ -48,18 +53,17 @@ Example usage in `examples/basic/main.tf`.
 
 ## 🧩 Available Functions
 
-| Function            | Description                |
+| Function | Description |
 | ------------------- | -------------------------- |
-| `is_email(string)`  | Validates email format     |
-| `is_uuid(string)`   | Validates UUID             |
+| `is_email(string)` | Validates email format |
+| `is_uuid(string)` | Validates UUID |
 | `is_semver(string)` | Validates semantic version |
 
 ---
 
 ## 💡 Contributing
 
-Open to PRs!
-Good first issues include adding new validators like `is_ip`, `is_hostname`, or `matches_regex`.
+Open to PRs! Good first issues include adding new validators like `is_ip`, `is_hostname`, or `matches_regex`.
 
 ---
 
