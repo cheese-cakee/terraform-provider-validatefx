@@ -10,37 +10,37 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
 )
 
-func TestEmailValidatorValid(t *testing.T) {
+func TestBase64ValidatorValid(t *testing.T) {
 	t.Parallel()
+	validator := Base64Validator()
 
-	validator := Email()
 	req := frameworkvalidator.StringRequest{
-		Path:        path.Root("email"),
-		ConfigValue: types.StringValue("user@example.com"),
+		Path:        path.Root("base64"),
+		ConfigValue: types.StringValue("dGVzdGluZw=="), // base64 string for testing
 	}
 	resp := &frameworkvalidator.StringResponse{}
 
 	validator.ValidateString(context.Background(), req, resp)
 
 	if resp.Diagnostics.HasError() {
-		t.Fatalf("expected no diagnostics for valid email, got: %v", resp.Diagnostics)
+		t.Fatalf("expected no diagnostics for valid base64, got: %v", resp.Diagnostics)
 	}
 }
 
-func TestEmailValidatorInvalid(t *testing.T) {
+func TestBase64ValidatorInvalid(t *testing.T) {
 	t.Parallel()
 
-	validator := Email()
+	validator := Base64Validator()
 	req := frameworkvalidator.StringRequest{
-		Path:        path.Root("email"),
-		ConfigValue: types.StringValue("not-an-email"),
+		Path:        path.Root("base64"),
+		ConfigValue: types.StringValue("not_a_valid_base64_string"),
 	}
 	resp := &frameworkvalidator.StringResponse{}
 
 	validator.ValidateString(context.Background(), req, resp)
 
 	if !resp.Diagnostics.HasError() {
-		t.Fatalf("expected diagnostics for invalid email")
+		t.Fatalf("expected diagnostics for invalid base64 string")
 	}
 
 	diagnostic := resp.Diagnostics[0]
@@ -49,30 +49,30 @@ func TestEmailValidatorInvalid(t *testing.T) {
 		t.Fatalf("expected error diagnostic, got severity: %s", diagnostic.Severity())
 	}
 
-	if diagnostic.Summary() != "Invalid Email Address" {
+	if diagnostic.Summary() != "Invalid base64 string" {
 		t.Fatalf("unexpected diagnostic summary: %s", diagnostic.Summary())
 	}
 }
 
-func TestEmailValidatorHandlesEmptyAndNull(t *testing.T) {
+func TestBase64ValidatorInvalidHandlesEmptyAndNull(t *testing.T) {
 	t.Parallel()
 
 	testCases := map[string]frameworkvalidator.StringRequest{
 		"empty": {
-			Path:        path.Root("email"),
+			Path:        path.Root("base64"),
 			ConfigValue: types.StringValue(""),
 		},
 		"null": {
-			Path:        path.Root("email"),
+			Path:        path.Root("base64"),
 			ConfigValue: types.StringNull(),
 		},
 		"unknown": {
-			Path:        path.Root("email"),
+			Path:        path.Root("base64"),
 			ConfigValue: types.StringUnknown(),
 		},
 	}
 
-	validator := Email()
+	validator := Base64Validator()
 
 	for name, req := range testCases {
 		t.Run(name, func(t *testing.T) {
@@ -87,3 +87,4 @@ func TestEmailValidatorHandlesEmptyAndNull(t *testing.T) {
 		})
 	}
 }
+

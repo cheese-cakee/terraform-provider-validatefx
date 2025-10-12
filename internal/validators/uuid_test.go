@@ -89,7 +89,6 @@ func TestUUIDValidatorHandlesEmptyAndNull(t *testing.T) {
 	validator := UUID()
 
 	for name, req := range testCases {
-		req := req
 		t.Run(name, func(t *testing.T) {
 			t.Parallel()
 
