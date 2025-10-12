@@ -1,0 +1,22 @@
+version: "2"
+
+run:
+  tests: false
+output:
+  formats:
+    json:
+      path: lint_report.json
+linters:
+  enable:
+    - errcheck
+    - govet
+    - ineffassign
+    - unused
+    - cyclop
+  disable:
+    - errcheck
+    - unused
+    - staticcheck
+formatters:
+  enable:
+    - gofmt

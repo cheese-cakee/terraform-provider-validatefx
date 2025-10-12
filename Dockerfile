@@ -1,16 +1,28 @@
 # syntax=docker/dockerfile:1
-FROM golang:1.25.2-bookworm AS build
-
+# Base image
+FROM golang:1.25.2-alpine AS base
+ENV CGO_ENABLED=0
 WORKDIR /app
-
-COPY go.mod go.sum ./
+COPY . .
 RUN go mod download
 
-COPY . .
+# Linter
+FROM golangci/golangci-lint:v2.5-alpine AS lint
+ENV CGO_ENABLED=0
+WORKDIR /src
+COPY --from=base /app .
+COPY .golangci.yaml .
+RUN go mod download && golangci-lint run --timeout 5m
 
-# Build the provider binary
-RUN CGO_ENABLED=0 go build -o terraform-provider-validatefx .
+# Binary build
+FROM base AS build
+WORKDIR /app
+COPY --from=lint /src/lint_report.json .
+RUN ls .
+RUN go test ./... && go build -o terraform-provider-validatefx .
 
+
+# Final image
 FROM hashicorp/terraform:1.9.8
 
 # Copy provider binary for direct execution
