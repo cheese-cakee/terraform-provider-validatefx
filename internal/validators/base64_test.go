@@ -87,4 +87,3 @@ func TestBase64ValidatorInvalidHandlesEmptyAndNull(t *testing.T) {
 		})
 	}
 }
-
