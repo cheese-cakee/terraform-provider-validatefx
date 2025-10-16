@@ -18,7 +18,7 @@ locals {
   checked_emails = [
     for email in local.emails : {
       address = email
-      valid   = validatefx_email(email)
+      valid   = provider::validatefx::validatefx_email(email)
     }
   ]
 }

@@ -18,7 +18,7 @@ locals {
   checked = [
     for id in local.uuids : {
       value = id
-      valid = validatefx_uuid(id)
+      valid = provider::validatefx::validatefx_uuid(id)
     }
   ]
 }

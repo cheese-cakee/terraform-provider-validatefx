@@ -38,3 +38,9 @@ terraform.rc
 
 # Lint report
 lint_report.json
+
+# Provider binary
+terraform-provider-validatefx
+
+# Terraform lock files
+.terraform.lock.hcl

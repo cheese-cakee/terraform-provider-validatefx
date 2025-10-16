@@ -33,28 +33,28 @@ locals {
   email_results = [
     for value in local.emails : {
       value = value
-      valid = validatefx_email(value)
+      valid = provider::validatefx::validatefx_email(value)
     }
   ]
 
   uuid_results = [
     for value in local.uuids : {
       value = value
-      valid = validatefx_uuid(value)
+      valid = provider::validatefx::validatefx_uuid(value)
     }
   ]
 
   base64_results = [
     for value in local.base64_values : {
       value = value
-      valid = validatefx_base64(value)
+      valid = provider::validatefx::validatefx_base64(value)
     }
   ]
 
   credit_card_results = [
     for value in local.credit_cards : {
       value = value
-      valid = validatefx_credit_card(value)
+      valid = provider::validatefx::validatefx_credit_card(value)
     }
   ]
 }
