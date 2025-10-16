@@ -4,12 +4,18 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
+	"github.com/hashicorp/terraform-plugin-framework/function"
 	"github.com/hashicorp/terraform-plugin-framework/provider"
 	"github.com/hashicorp/terraform-plugin-framework/provider/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
+
+	"github.com/The-DevOps-Daily/terraform-provider-validatefx/internal/functions"
 )
 
-var _ provider.Provider = &validateFXProvider{}
+var (
+	_ provider.Provider              = &validateFXProvider{}
+	_ provider.ProviderWithFunctions = &validateFXProvider{}
+)
 
 // validateFXProvider defines the ValidateFX Terraform provider implementation.
 type validateFXProvider struct {
@@ -43,4 +49,13 @@ func (p *validateFXProvider) Resources(ctx context.Context) []func() resource.Re
 
 func (p *validateFXProvider) DataSources(ctx context.Context) []func() datasource.DataSource {
 	return nil
+}
+
+func (p *validateFXProvider) Functions(ctx context.Context) []func() function.Function {
+	return []func() function.Function{
+		functions.NewEmailFunction,
+		functions.NewUUIDFunction,
+		functions.NewBase64Function,
+		functions.NewCreditCardFunction,
+	}
 }
