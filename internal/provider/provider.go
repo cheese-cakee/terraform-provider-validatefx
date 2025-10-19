@@ -57,5 +57,6 @@ func (p *validateFXProvider) Functions(ctx context.Context) []func() function.Fu
 		functions.NewUUIDFunction,
 		functions.NewBase64Function,
 		functions.NewCreditCardFunction,
+		functions.NewDomainFunction,
 	}
 }
