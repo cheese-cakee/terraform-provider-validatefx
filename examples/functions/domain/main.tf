@@ -25,7 +25,7 @@ locals {
   checked_domains = [
     for domain in local.domains : {
       domain = domain
-      valid  = validatefx_domain(domain)
+      valid  = provider::validatefx::validatefx_domain(domain)
     }
   ]
 }

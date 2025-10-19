@@ -30,6 +30,11 @@ locals {
     "4532015112830367",
   ]
 
+  domains = [
+    "example.com",
+    "invalid..domain",
+  ]
+
   email_results = [
     for value in local.emails : {
       value = value
@@ -57,6 +62,13 @@ locals {
       valid = provider::validatefx::validatefx_credit_card(value)
     }
   ]
+
+  domain_results = [
+    for value in local.domains : {
+      value = value
+      valid = provider::validatefx::validatefx_domain(value)
+    }
+  ]
 }
 
 output "validatefx_email" {
@@ -73,4 +85,8 @@ output "validatefx_base64" {
 
 output "validatefx_credit_card" {
   value = local.credit_card_results
+}
+
+output "validatefx_domain" {
+  value = local.domain_results
 }
