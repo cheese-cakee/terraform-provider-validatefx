@@ -24,7 +24,7 @@ locals {
   checked = [
     for card in local.credit_cards : {
       card_number = card
-      is_valid    = provider::validatefx::validatefx_credit_card(card)
+      is_valid    = provider::validatefx::credit_card(card)
     }
   ]
 }

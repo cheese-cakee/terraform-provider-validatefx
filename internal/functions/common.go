@@ -39,8 +39,11 @@ func (f *stringValidationFunction) Definition(ctx context.Context, req function.
 		Return:              function.BoolReturn{},
 		Parameters: []function.Parameter{
 			function.StringParameter{
-				Name:                "input",
-				MarkdownDescription: "The string value to validate",
+				Name:                "value",
+				AllowNullValue:      true,
+				AllowUnknownValues:  true,
+				Description:         "String value to validate.",
+				MarkdownDescription: "String value to validate.",
 			},
 		},
 	}

@@ -9,7 +9,7 @@ import (
 // NewDomainFunction exposes the domain validator as a Terraform function.
 func NewDomainFunction() function.Function {
 	return newStringValidationFunction(
-		"validatefx_domain",
+		"domain",
 		"Validate that a string is a compliant domain name.",
 		"Returns true when the input is a valid domain per RFC 1123/952 rules.",
 		validators.Domain(),
