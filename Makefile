@@ -33,7 +33,7 @@ lint: ## Run golangci-lint (requires golangci-lint in PATH)
 	fi
 	$(GOLANGCI_LINT) run ./...
 
-Docs: ## Generate provider documentation using tfplugindocs
+docs: ## Generate provider documentation using tfplugindocs
 	@if [ ! -x "$(TFPLUGINDOCS)" ]; then \
 		echo "tfplugindocs not found. Install with:" >&2; \
 		echo "  go install github.com/hashicorp/terraform-plugin-docs/cmd/tfplugindocs@v0.19.2" >&2; \
