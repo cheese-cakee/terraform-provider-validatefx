@@ -1,0 +1,19 @@
+version: "3.9"
+
+services:
+  terraform:
+    build:
+      context: .
+      dockerfile: Dockerfile.test
+    working_dir: /workspace
+    volumes:
+      - ./integration:/workspace
+    environment:
+      TF_LOG: WARN
+    command: 
+      - /bin/sh
+      - -c
+      - |
+        terraform init && \
+        terraform apply -auto-approve && \
+        terraform destroy -auto-approve
