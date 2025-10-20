@@ -1,14 +1,12 @@
 package functions
 
-import (
-	"testing"
-)
+import "testing"
 
 func TestIsEmail(t *testing.T) {
 	tests := []struct {
-		name    string
-		input   string
-		wantOk  bool
+		name   string
+		input  string
+		wantOk bool
 	}{
 		{"valid email", "test@example.com", true},
 		{"missing domain", "test@", false},
@@ -84,6 +82,30 @@ func TestIsCreditCard(t *testing.T) {
 			got := IsCreditCard(tt.input)
 			if (got == nil) != tt.wantOk {
 				t.Errorf("IsCreditCard(%q) = %v, wantOk %v", tt.input, got, tt.wantOk)
+			}
+		})
+	}
+}
+
+func TestIsSemVer(t *testing.T) {
+	tests := []struct {
+		name   string
+		input  string
+		wantOk bool
+	}{
+		{"valid semver", "1.0.0", true},
+		{"valid with v prefix", "v2.3.4", true},
+		{"valid prerelease", "1.0.0-beta", true},
+		{"invalid missing patch", "1.0", false},
+		{"invalid text", "version1.0.0", false},
+		{"empty", "", false},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got := IsSemVer(tt.input)
+			if (got == nil) != tt.wantOk {
+				t.Errorf("IsSemVer(%q) = %v, wantOk %v", tt.input, got, tt.wantOk)
 			}
 		})
 	}
