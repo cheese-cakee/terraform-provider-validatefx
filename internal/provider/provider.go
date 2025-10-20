@@ -53,6 +53,7 @@ func (p *validateFXProvider) DataSources(ctx context.Context) []func() datasourc
 
 func (p *validateFXProvider) Functions(ctx context.Context) []func() function.Function {
 	return []func() function.Function{
+		functions.NewAssertFunction,
 		functions.NewEmailFunction,
 		functions.NewUUIDFunction,
 		functions.NewBase64Function,

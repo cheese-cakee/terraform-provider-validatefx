@@ -69,6 +69,22 @@ locals {
       valid = provider::validatefx::domain(value)
     }
   ]
+
+  # Assert function tests
+  assert_email_valid = provider::validatefx::assert(
+    provider::validatefx::email("alice@example.com"),
+    "Email validation failed!"
+  )
+
+  assert_uuid_valid = provider::validatefx::assert(
+    provider::validatefx::uuid("d9428888-122b-11e1-b85c-61cd3cbb3210"),
+    "UUID validation failed!"
+  )
+
+  assert_custom_condition = provider::validatefx::assert(
+    length("test") == 4,
+    "String length assertion failed!"
+  )
 }
 
 output "validatefx_email" {
@@ -89,4 +105,12 @@ output "validatefx_credit_card" {
 
 output "validatefx_domain" {
   value = local.domain_results
+}
+
+output "validatefx_assert" {
+  value = {
+    email_check      = local.assert_email_valid
+    uuid_check       = local.assert_uuid_valid
+    custom_condition = local.assert_custom_condition
+  }
 }

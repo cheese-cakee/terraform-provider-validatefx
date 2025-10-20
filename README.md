@@ -7,7 +7,7 @@
 
 Reusable validation functions for Terraform, built with the latest [Terraform Plugin Framework](https://github.com/hashicorp/terraform-plugin-framework).
 
-ValidateFX lets you write cleaner, more expressive validations using functions like `is_email`, `is_uuid`, and `is_semver`.
+ValidateFX lets you write cleaner, more expressive validations using functions like `email`, `uuid`, `base64`, and more. Use the `assert` function to validate conditions with custom error messages.
 
 ---
 
@@ -27,10 +27,20 @@ provider "validatefx" {}
 
 variable "email" {
   type = string
-  validation {
-    condition     = provider::validatefx::is_email(var.email)
-    error_message = "Must be a valid email address"
-  }
+}
+
+locals {
+  # Validate email with custom error message
+  email_check = provider::validatefx::assert(
+    provider::validatefx::email(var.email),
+    "Invalid email address provided!"
+  )
+
+  # Or use in variable validation
+  age_validation = provider::validatefx::assert(
+    var.user_age >= 18,
+    "User must be at least 18 years old!"
+  )
 }
 ```
 
@@ -54,10 +64,13 @@ Example usage in `examples/basic/main.tf`.
 ## 🧩 Available Functions
 
 | Function | Description |
-| ------------------- | -------------------------- |
-| `is_email(string)` | Validates email format |
-| `is_uuid(string)` | Validates UUID |
-| `is_semver(string)` | Validates semantic version |
+| -------------------------- | ------------------------------------------------ |
+| `assert(bool, string)` | Validates a condition with a custom error message |
+| `email(string)` | Validates email format (RFC 5322) |
+| `uuid(string)` | Validates UUID (RFC 4122, versions 1-5) |
+| `base64(string)` | Validates Base64 encoding |
+| `credit_card(string)` | Validates credit card number (Luhn algorithm) |
+| `domain(string)` | Validates domain name (RFC 1123/952) |
 
 ---
 
