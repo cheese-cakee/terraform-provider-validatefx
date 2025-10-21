@@ -35,6 +35,15 @@ archives:
 checksum:
   name_template: "{{ .ProjectName }}_{{ .Version }}_SHA256SUMS"
 
+signs:
+  - artifacts: checksum
+    args:
+      - "--armor"
+      - "--detach-sign"
+      - "--output"
+      - "{{ .ArtifactPath }}.sig"
+      - "{{ .ArtifactPath }}"
+
 changelog:
   use: git
   filters:
