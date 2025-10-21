@@ -1,0 +1,47 @@
+project_name: terraform-provider-validatefx
+
+goos:
+  - linux
+  - darwin
+  - windows
+
+goarch:
+  - amd64
+  - arm64
+
+before:
+  hooks:
+    - go generate ./...
+    - go test ./...
+
+builds:
+  - id: terraform-provider
+    main: ./main.go
+    binary: terraform-provider-validatefx_v{{ .Version }}
+    env:
+      - CGO_ENABLED=0
+    flags:
+      - -trimpath
+    ldflags:
+      - -s -w
+
+archives:
+  - id: terraform-provider
+    builds:
+      - terraform-provider
+    format: zip
+    name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
+    files:
+      - LICENSE
+      - README.md
+
+checksums:
+  name_template: "{{ .ProjectName }}_{{ .Version }}_SHA256SUMS"
+
+changelog:
+  use: git
+  filters:
+    exclude:
+      - '^docs:'
+      - '^test:'
+      - '^ci:'
