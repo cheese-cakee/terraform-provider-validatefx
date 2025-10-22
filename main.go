@@ -19,7 +19,7 @@ func main() {
 	flag.Parse()
 
 	opts := providerserver.ServeOpts{
-		Address: "registry.terraform.io/providers/The-DevOps-Daily/validatefx",
+		Address: "registry.terraform.io/the-devops-daily/validatefx",
 		Debug:   debug,
 	}
 
