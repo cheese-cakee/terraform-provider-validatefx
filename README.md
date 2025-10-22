@@ -65,12 +65,13 @@ Example usage in `examples/basic/main.tf`.
 
 | Function | Description |
 | -------------------------- | ------------------------------------------------ |
-| `assert(bool, string)` | Validates a condition with a custom error message |
-| `email(string)` | Validates email format (RFC 5322) |
-| `uuid(string)` | Validates UUID (RFC 4122, versions 1-5) |
-| `base64(string)` | Validates Base64 encoding |
-| `credit_card(string)` | Validates credit card number (Luhn algorithm) |
-| `domain(string)` | Validates domain name (RFC 1123/952) |
+| `assert` | Assert a condition with a custom error message. |
+| `base64` | Validate that a string is Base64 encoded. |
+| `credit_card` | Validate that a string is a credit card number using the Luhn algorithm. |
+| `domain` | Validate that a string is a compliant domain name. |
+| `email` | Validate that a string is an RFC 5322 compliant email address. |
+| `uuid` | Validate that a string is an RFC 4122 UUID (versions 1-5). |
+
 
 ---
 

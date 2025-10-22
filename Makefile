@@ -40,6 +40,7 @@ docs: ## Generate provider documentation using tfplugindocs
 		exit 1; \
 	fi
 	"$(TFPLUGINDOCS)" generate
+	go run ./scripts/update-readme-functions-table.go
 
 integration: ## Execute Terraform integration scenario via Docker Compose
 	@status=0; \
