@@ -41,6 +41,12 @@ locals {
     "[]",
   ]
 
+  semver_values = [
+    "1.0.0",
+    "v1.0.0",
+    "1.0",
+  ]
+
   email_results = [
     for value in local.emails : {
       value = value
@@ -83,6 +89,13 @@ locals {
     }
   ]
 
+  semver_results = [
+    for value in local.semver_values : {
+      value = value
+      valid = provider::validatefx::semver(value)
+    }
+  ]
+
   # Assert function tests
   assert_email_valid = provider::validatefx::assert(
     provider::validatefx::email("alice@example.com"),
@@ -122,6 +135,10 @@ output "validatefx_domain" {
 
 output "validatefx_json" {
   value = local.json_results
+}
+
+output "validatefx_semver" {
+  value = local.semver_results
 }
 
 output "validatefx_assert" {

@@ -18,6 +18,7 @@ func ProviderFunctionFactories() []func() function.Function {
 		NewCreditCardFunction,
 		NewDomainFunction,
 		NewJSONFunction,
+		NewSemVerFunction,
 	}
 }
 

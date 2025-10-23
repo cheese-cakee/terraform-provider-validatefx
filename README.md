@@ -71,6 +71,7 @@ Example usage in `examples/basic/main.tf`.
 | `domain` | Validate that a string is a compliant domain name. |
 | `email` | Validate that a string is an RFC 5322 compliant email address. |
 | `json` | Validate that a string decodes to a JSON object. |
+| `semver` | Validate that a string follows Semantic Versioning (SemVer 2.0.0). |
 | `uuid` | Validate that a string is an RFC 4122 UUID (versions 1-5). |
 
 
