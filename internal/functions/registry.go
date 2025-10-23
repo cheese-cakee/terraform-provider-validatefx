@@ -19,6 +19,7 @@ func ProviderFunctionFactories() []func() function.Function {
 		NewDomainFunction,
 		NewJSONFunction,
 		NewSemVerFunction,
+		NewIPFunction,
 	}
 }
 
