@@ -66,6 +66,28 @@ func TestIsBase64(t *testing.T) {
 	}
 }
 
+func TestIsJSON(t *testing.T) {
+	tests := []struct {
+		name   string
+		input  string
+		wantOk bool
+	}{
+		{"valid object", `{"key": "value"}`, true},
+		{"invalid syntax", `{"key":`, false},
+		{"array", `[]`, false},
+		{"empty", "", false},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got := IsJSON(tt.input)
+			if (got == nil) != tt.wantOk {
+				t.Errorf("IsJSON(%q) = %v, wantOk %v", tt.input, got, tt.wantOk)
+			}
+		})
+	}
+}
+
 func TestIsCreditCard(t *testing.T) {
 	tests := []struct {
 		name   string

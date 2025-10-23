@@ -2,6 +2,7 @@ package functions
 
 import (
 	"encoding/base64"
+	"encoding/json"
 	"fmt"
 	"regexp"
 )
@@ -43,6 +44,24 @@ func IsCreditCard(input string) error {
 		return nil
 	}
 	return fmt.Errorf("invalid credit card number")
+}
+
+// IsJSON checks if the input string represents a JSON object.
+func IsJSON(input string) error {
+	if input == "" {
+		return fmt.Errorf("empty string")
+	}
+
+	var decoded any
+	if err := json.Unmarshal([]byte(input), &decoded); err != nil {
+		return fmt.Errorf("invalid json: %w", err)
+	}
+
+	if _, ok := decoded.(map[string]any); !ok {
+		return fmt.Errorf("invalid json object")
+	}
+
+	return nil
 }
 
 // IsSemVer checks if the input string follows Semantic Versioning (e.g., 1.0.0, v2.3.4-beta)

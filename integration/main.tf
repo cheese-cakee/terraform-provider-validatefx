@@ -35,6 +35,12 @@ locals {
     "invalid..domain",
   ]
 
+  json_payloads = [
+    "{\"key\": \"value\"}",
+    "{\"invalid\":",
+    "[]",
+  ]
+
   email_results = [
     for value in local.emails : {
       value = value
@@ -67,6 +73,13 @@ locals {
     for value in local.domains : {
       value = value
       valid = provider::validatefx::domain(value)
+    }
+  ]
+
+  json_results = [
+    for value in local.json_payloads : {
+      value = value
+      valid = provider::validatefx::json(value)
     }
   ]
 
@@ -105,6 +118,10 @@ output "validatefx_credit_card" {
 
 output "validatefx_domain" {
   value = local.domain_results
+}
+
+output "validatefx_json" {
+  value = local.json_results
 }
 
 output "validatefx_assert" {
