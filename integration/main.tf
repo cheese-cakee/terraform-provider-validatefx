@@ -47,6 +47,12 @@ locals {
     "1.0",
   ]
 
+  ip_values = [
+    "127.0.0.1",
+    "::1",
+    "999.999.999.999",
+  ]
+
   email_results = [
     for value in local.emails : {
       value = value
@@ -96,6 +102,13 @@ locals {
     }
   ]
 
+  ip_results = [
+    for value in local.ip_values : {
+      value = value
+      valid = provider::validatefx::ip(value)
+    }
+  ]
+
   # Assert function tests
   assert_email_valid = provider::validatefx::assert(
     provider::validatefx::email("alice@example.com"),
@@ -139,6 +152,10 @@ output "validatefx_json" {
 
 output "validatefx_semver" {
   value = local.semver_results
+}
+
+output "validatefx_ip" {
+  value = local.ip_results
 }
 
 output "validatefx_assert" {

@@ -70,6 +70,7 @@ Example usage in `examples/basic/main.tf`.
 | `credit_card` | Validate that a string is a credit card number using the Luhn algorithm. |
 | `domain` | Validate that a string is a compliant domain name. |
 | `email` | Validate that a string is an RFC 5322 compliant email address. |
+| `ip` | Validate that a string is an IPv4 or IPv6 address. |
 | `json` | Validate that a string decodes to a JSON object. |
 | `semver` | Validate that a string follows Semantic Versioning (SemVer 2.0.0). |
 | `uuid` | Validate that a string is an RFC 4122 UUID (versions 1-5). |
@@ -79,7 +80,7 @@ Example usage in `examples/basic/main.tf`.
 
 ## 💡 Contributing
 
-Open to PRs! Good first issues include adding new validators like `is_ip`, `is_hostname`, or `matches_regex`.
+Open to PRs! Good first issues include adding new validators like `is_hostname`, `matches_regex`, or `cidr`.
 
 ---
 
