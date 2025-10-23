@@ -70,6 +70,7 @@ Example usage in `examples/basic/main.tf`.
 | `credit_card` | Validate that a string is a credit card number using the Luhn algorithm. |
 | `domain` | Validate that a string is a compliant domain name. |
 | `email` | Validate that a string is an RFC 5322 compliant email address. |
+| `json` | Validate that a string decodes to a JSON object. |
 | `uuid` | Validate that a string is an RFC 4122 UUID (versions 1-5). |
 
 
