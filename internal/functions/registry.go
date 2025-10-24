@@ -20,6 +20,7 @@ func ProviderFunctionFactories() []func() function.Function {
 		NewJSONFunction,
 		NewSemVerFunction,
 		NewIPFunction,
+		NewMatchesRegexFunction,
 	}
 }
 
