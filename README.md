@@ -72,6 +72,7 @@ Example usage in `examples/basic/main.tf`.
 | `email` | Validate that a string is an RFC 5322 compliant email address. |
 | `ip` | Validate that a string is an IPv4 or IPv6 address. |
 | `json` | Validate that a string decodes to a JSON object. |
+| `matches_regex` | Validate that a string matches a custom regular expression. |
 | `semver` | Validate that a string follows Semantic Versioning (SemVer 2.0.0). |
 | `uuid` | Validate that a string is an RFC 4122 UUID (versions 1-5). |
 
@@ -80,7 +81,7 @@ Example usage in `examples/basic/main.tf`.
 
 ## 💡 Contributing
 
-Open to PRs! Good first issues include adding new validators like `is_hostname`, `matches_regex`, or `cidr`.
+Open to PRs! Good first issues include adding new validators like `is_hostname`, `cidr`, or `mac_address`.
 
 ---
 

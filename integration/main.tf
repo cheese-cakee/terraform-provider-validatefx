@@ -53,6 +53,17 @@ locals {
     "999.999.999.999",
   ]
 
+  regex_samples = [
+    {
+      value   = "user_123"
+      pattern = "^[a-z0-9_]+$"
+    },
+    {
+      value   = "Invalid-User"
+      pattern = "^[a-z0-9_]+$"
+    },
+  ]
+
   email_results = [
     for value in local.emails : {
       value = value
@@ -109,6 +120,14 @@ locals {
     }
   ]
 
+  matches_regex_results = [
+    for item in local.regex_samples : {
+      value   = item.value
+      pattern = item.pattern
+      valid   = provider::validatefx::matches_regex(item.value, item.pattern)
+    }
+  ]
+
   # Assert function tests
   assert_email_valid = provider::validatefx::assert(
     provider::validatefx::email("alice@example.com"),
@@ -156,6 +175,10 @@ output "validatefx_semver" {
 
 output "validatefx_ip" {
   value = local.ip_results
+}
+
+output "validatefx_matches_regex" {
+  value = local.matches_regex_results
 }
 
 output "validatefx_assert" {
