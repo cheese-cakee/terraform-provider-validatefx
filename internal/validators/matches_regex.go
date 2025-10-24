@@ -8,8 +8,6 @@ import (
 	frameworkvalidator "github.com/hashicorp/terraform-plugin-framework/schema/validator"
 )
 
-var _ frameworkvalidator.String = MatchesRegex("")
-
 // MatchesRegex returns a validation that checks input against the provided regular expression pattern.
 func MatchesRegex(pattern string) frameworkvalidator.String {
 	return matchesRegexValidator{pattern: pattern}
