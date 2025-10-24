@@ -8,6 +8,8 @@ import (
 	frameworkvalidator "github.com/hashicorp/terraform-plugin-framework/schema/validator"
 )
 
+var phoneE164Regex = regexp.MustCompile(`^\+[1-9]\d{1,14}$`)
+
 var _ frameworkvalidator.String = Phone()
 
 // Phone returns a schema.String validator that ensures values follow the E.164 phone number format.
@@ -38,8 +40,7 @@ func (phoneValidator) ValidateString(_ context.Context, req frameworkvalidator.S
 		return
 	}
 
-	e164Regex := regexp.MustCompile(`^\+[1-9]\d{1,14}$`)
-	if !e164Regex.MatchString(value) {
+	if !phoneE164Regex.MatchString(value) {
 		resp.Diagnostics.AddAttributeError(
 			req.Path,
 			"Invalid Phone Number",

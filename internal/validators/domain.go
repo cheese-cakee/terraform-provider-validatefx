@@ -9,6 +9,10 @@ import (
 	frameworkvalidator "github.com/hashicorp/terraform-plugin-framework/schema/validator"
 )
 
+var (
+	validLabelRegex = regexp.MustCompile(`^[a-zA-Z0-9]([a-zA-Z0-9\-]*[a-zA-Z0-9])?$`)
+)
+
 var _ frameworkvalidator.String = Domain()
 
 // Domain returns a schema.String validator which enforces valid domain format.
@@ -101,7 +105,6 @@ func isValidLabel(label string) bool {
 	}
 
 	// Label can only contain alphanumeric characters and hyphens
-	validLabelRegex := regexp.MustCompile(`^[a-zA-Z0-9]([a-zA-Z0-9\-]*[a-zA-Z0-9])?$`)
 	return validLabelRegex.MatchString(label)
 }
 
