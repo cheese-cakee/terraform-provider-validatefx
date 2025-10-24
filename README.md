@@ -70,9 +70,9 @@ Example usage in `examples/basic/main.tf`.
 | `credit_card` | Validate that a string is a credit card number using the Luhn algorithm. |
 | `domain` | Validate that a string is a compliant domain name. |
 | `email` | Validate that a string is an RFC 5322 compliant email address. |
-| `ip` | Validate that a string is an IPv4 or IPv6 address. |
+| `ip` | Validate that a string is a valid IPv4 or IPv6 address. |
 | `json` | Validate that a string decodes to a JSON object. |
-| `matches_regex` | Validate that a string matches a custom regular expression. |
+| `matches_regex` | Validate that a string matches a provided regular expression. |
 | `semver` | Validate that a string follows Semantic Versioning (SemVer 2.0.0). |
 | `uuid` | Validate that a string is an RFC 4122 UUID (versions 1-5). |
 
