@@ -16,9 +16,9 @@ func TestPhoneValidatorValid(t *testing.T) {
 	validator := Phone()
 
 	validNumbers := []string{
-		"+14155552671",   // US
-		"+919876543210",  // India
-		"+442071838750",  // UK
+		"+14155552671",  // US
+		"+919876543210", // India
+		"+442071838750", // UK
 	}
 
 	for _, num := range validNumbers {
@@ -42,11 +42,11 @@ func TestPhoneValidatorInvalid(t *testing.T) {
 	validator := Phone()
 
 	invalidNumbers := []string{
-		"14155552671",        // Missing +
-		"+0123456789",        // Invalid country code
-		"+1234567890123456",  // Too long
-		"abcd12345",          // Letters
-		"+-123456789",        // Invalid characters
+		"14155552671",       // Missing +
+		"+0123456789",       // Invalid country code
+		"+1234567890123456", // Too long
+		"abcd12345",         // Letters
+		"+-123456789",       // Invalid characters
 	}
 
 	for _, num := range invalidNumbers {

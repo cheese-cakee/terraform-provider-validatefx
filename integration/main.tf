@@ -30,6 +30,11 @@ locals {
     "4532015112830367",
   ]
 
+  phone_numbers = [
+    "+14155552671",
+    "14155552671",
+  ]
+
   domains = [
     "example.com",
     "invalid..domain",
@@ -128,6 +133,13 @@ locals {
     }
   ]
 
+  phone_results = [
+    for value in local.phone_numbers : {
+      value = value
+      valid = provider::validatefx::phone(value)
+    }
+  ]
+
   # Assert function tests
   assert_email_valid = provider::validatefx::assert(
     provider::validatefx::email("alice@example.com"),
@@ -179,6 +191,10 @@ output "validatefx_ip" {
 
 output "validatefx_matches_regex" {
   value = local.matches_regex_results
+}
+
+output "validatefx_phone" {
+  value = local.phone_results
 }
 
 output "validatefx_assert" {
