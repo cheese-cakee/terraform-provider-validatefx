@@ -140,6 +140,28 @@ locals {
     }
   ]
 
+  all_valid_results = [
+    for values in [
+      [true, true, true],
+      [true, false],
+      [true, null],
+    ] : {
+      checks = values
+      result = provider::validatefx::all_valid(values)
+    }
+  ]
+
+  any_valid_results = [
+    for values in [
+      [false, false],
+      [false, true],
+      [false, null, false],
+    ] : {
+      checks = values
+      result = provider::validatefx::any_valid(values)
+    }
+  ]
+
   # Assert function tests
   assert_email_valid = provider::validatefx::assert(
     provider::validatefx::email("alice@example.com"),
@@ -195,6 +217,14 @@ output "validatefx_matches_regex" {
 
 output "validatefx_phone" {
   value = local.phone_results
+}
+
+output "validatefx_all_valid" {
+  value = local.all_valid_results
+}
+
+output "validatefx_any_valid" {
+  value = local.any_valid_results
 }
 
 output "validatefx_assert" {

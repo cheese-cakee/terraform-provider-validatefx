@@ -65,6 +65,8 @@ Example usage in `examples/basic/main.tf`.
 
 | Function        | Description                                                              |
 | --------------- | ------------------------------------------------------------------------ |
+| `all_valid`     | Return true when all provided validation checks evaluate to true.        |
+| `any_valid`     | Return true when any provided validation check evaluates to true.        |
 | `assert`        | Assert a condition with a custom error message.                          |
 | `base64`        | Validate that a string is Base64 encoded.                                |
 | `credit_card`   | Validate that a string is a credit card number using the Luhn algorithm. |
