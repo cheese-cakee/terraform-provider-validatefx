@@ -1,42 +1,57 @@
 package validators
 
 import (
-	"errors"
+	"context"
 	"fmt"
 	"net/url"
+	"strings"
 
-	"github.com/hashicorp/terraform-plugin-framework/diag"
-	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
-	"github.com/hashicorp/terraform-plugin-framework/types"
+	frameworkvalidator "github.com/hashicorp/terraform-plugin-framework/schema/validator"
 )
 
-var (
-	ErrInvalidURL = errors.New("invalid URL format")
-)
+var _ frameworkvalidator.String = URL()
 
-type urlValidator struct{}
-
-func URL() validator.String {
+// URL returns a schema.String validator that ensures the value is a well formed URL with scheme and host.
+func URL() frameworkvalidator.String {
 	return urlValidator{}
 }
 
-func (v urlValidator) ValidateString(ctx context.Context, req validator.StringRequest, resp *validator.StringResponse) {
+type urlValidator struct{}
+
+func (urlValidator) Description(context.Context) string {
+	return "value must be a valid URL including scheme and host"
+}
+
+func (urlValidator) MarkdownDescription(context.Context) string {
+	return "value must be a valid **URL** including scheme (e.g. `https`) and host"
+}
+
+func (urlValidator) ValidateString(_ context.Context, req frameworkvalidator.StringRequest, resp *frameworkvalidator.StringResponse) {
 	if req.ConfigValue.IsNull() || req.ConfigValue.IsUnknown() {
 		return
 	}
 
-	value := req.ConfigValue.ValueString()
+	value := strings.TrimSpace(req.ConfigValue.ValueString())
+	if value == "" {
+		return
+	}
 
 	parsed, err := url.ParseRequestURI(value)
 	if err != nil || parsed.Scheme == "" || parsed.Host == "" {
-		resp.Diagnostics.Append(diag.NewErrorDiagnostic("Invalid URL", ErrInvalidURL.Error()))
+		resp.Diagnostics.AddAttributeError(
+			req.Path,
+			"Invalid URL",
+			fmt.Sprintf("Value %q is not a valid URL including scheme and host", value),
+		)
+		return
 	}
-}
 
-func (v urlValidator) Description(ctx context.Context) string {
-	return "Ensures that the string is a valid URL including scheme and host"
-}
-
-func (v urlValidator) MarkdownDescription(ctx context.Context) string {
-	return "Ensures that the string is a **valid URL** including scheme (`http`, `https`, etc.) and host."
+	scheme := strings.ToLower(parsed.Scheme)
+	if scheme != "http" && scheme != "https" {
+		resp.Diagnostics.AddAttributeError(
+			req.Path,
+			"Unsupported URL Scheme",
+			fmt.Sprintf("Value %q uses unsupported URL scheme %q. Only http and https are permitted.", value, parsed.Scheme),
+		)
+	}
 }

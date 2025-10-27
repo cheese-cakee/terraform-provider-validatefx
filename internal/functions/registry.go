@@ -22,6 +22,7 @@ func ProviderFunctionFactories() []func() function.Function {
 		NewIPFunction,
 		NewMatchesRegexFunction,
 		NewPhoneFunction,
+		NewURLFunction,
 		NewAllValidFunction,
 		NewAnyValidFunction,
 	}

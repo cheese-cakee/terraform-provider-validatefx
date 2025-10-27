@@ -4,44 +4,82 @@ import (
 	"context"
 	"testing"
 
+	"github.com/hashicorp/terraform-plugin-framework/diag"
+	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 )
 
-func runURLValidation(v validator.String, input types.String) diag.Diagnostics {
-	resp := validator.StringResponse{}
+func runURLValidation(v validator.String, value types.String) diag.Diagnostics {
 	req := validator.StringRequest{
-		ConfigValue: input,
+		Path:        path.Root("url"),
+		ConfigValue: value,
 	}
 
-	v.ValidateString(context.Background(), req, &resp)
+	resp := &validator.StringResponse{}
+	v.ValidateString(context.Background(), req, resp)
 	return resp.Diagnostics
 }
 
 func TestURLValidatorValid(t *testing.T) {
-	validURLs := []string{
+	t.Parallel()
+
+	tests := []string{
 		"https://example.com",
-		"http://google.com",
-		"https://sub.domain.com/path?query=1",
+		"http://example.org/path",
+		"https://sub.domain.com/path?query=1#fragment",
 	}
 
 	v := URL()
 
-	for _, url := range validURLs {
-		diags := runURLValidation(v, types.StringValue(url))
+	for _, tc := range tests {
+		diags := runURLValidation(v, types.StringValue(tc))
 		if diags.HasError() {
-			t.Errorf("Expected valid URL, got error for: %s", url)
+			t.Fatalf("expected URL %q to be valid, got diagnostics: %v", tc, diags)
 		}
 	}
 }
 
 func TestURLValidatorInvalid(t *testing.T) {
-	invalidURLs := []string{
+	t.Parallel()
+
+	tests := []string{
 		"example.com",
-		"http:/invalid.com",
+		"http:/broken.com",
 		"https://",
 		"invalid",
-		"ftp://",
+		"ftp://example.com",
 	}
 
-	v :
+	v := URL()
+
+	for _, tc := range tests {
+		diags := runURLValidation(v, types.StringValue(tc))
+		if !diags.HasError() {
+			t.Fatalf("expected URL %q to be invalid", tc)
+		}
+	}
+}
+
+func TestURLValidatorHandlesNullUnknown(t *testing.T) {
+	t.Parallel()
+
+	v := URL()
+
+	tests := []struct {
+		name  string
+		value types.String
+	}{
+		{"null", types.StringNull()},
+		{"unknown", types.StringUnknown()},
+	}
+
+	for _, tc := range tests {
+		t.Run(tc.name, func(t *testing.T) {
+			diags := runURLValidation(v, tc.value)
+			if diags.HasError() {
+				t.Fatalf("expected no diagnostics for %s value", tc.name)
+			}
+		})
+	}
+}
