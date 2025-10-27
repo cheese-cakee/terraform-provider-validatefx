@@ -1,30 +1,47 @@
-func TestIsURL(t *testing.T) {
-	tests := []struct {
-		name   string
-		input  string
-		wantOk bool
-	}{
-		{"https basic", "https://example.com", true},
-		{"http with path and query", "http://example.com/path?x=1", true},
-		{"subdomain", "https://sub.example.co.uk", true},
-		{"localhost with port", "https://localhost:8080", true},
-		{"ip address", "https://127.0.0.1", true},
-		{"fragment", "https://example.com#frag", true},
+package validators
 
-		{"missing scheme", "example.com", false},
-		{"unsupported scheme", "ftp://example.com", false},
-		{"missing host", "http://", false},
-		{"spaces", "http://not a url", false},
-		{"empty", "", false},
-		{"bad prefix", "://example.com", false},
+import (
+	"context"
+	"testing"
+
+	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
+	"github.com/hashicorp/terraform-plugin-framework/types"
+)
+
+func runURLValidation(v validator.String, input types.String) diag.Diagnostics {
+	resp := validator.StringResponse{}
+	req := validator.StringRequest{
+		ConfigValue: input,
 	}
 
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			got := IsURL(tt.input)
-			if (got == nil) != tt.wantOk {
-				t.Errorf("IsURL(%q) = %v, wantOk %v", tt.input, got, tt.wantOk)
-			}
-		})
+	v.ValidateString(context.Background(), req, &resp)
+	return resp.Diagnostics
+}
+
+func TestURLValidatorValid(t *testing.T) {
+	validURLs := []string{
+		"https://example.com",
+		"http://google.com",
+		"https://sub.domain.com/path?query=1",
+	}
+
+	v := URL()
+
+	for _, url := range validURLs {
+		diags := runURLValidation(v, types.StringValue(url))
+		if diags.HasError() {
+			t.Errorf("Expected valid URL, got error for: %s", url)
+		}
 	}
 }
+
+func TestURLValidatorInvalid(t *testing.T) {
+	invalidURLs := []string{
+		"example.com",
+		"http:/invalid.com",
+		"https://",
+		"invalid",
+		"ftp://",
+	}
+
+	v :
