@@ -91,8 +91,8 @@ locals {
   email_results = [
     for value in local.emails : {
       value   = value
-      trimmed = trimspace(value)
-      valid   = provider::validatefx::email(trimspace(value))
+      trimmed = try(trimspace(value), "")
+      valid   = trimmed != "" ? provider::validatefx::email(trimmed) : false
     }
   ]
 
