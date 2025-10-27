@@ -76,42 +76,57 @@ func (f *compositeValidationFunction) Run(ctx context.Context, req function.RunR
 		return
 	}
 
-	var encounteredUnknown bool
-	for _, elem := range bools {
-		if elem.IsUnknown() {
-			encounteredUnknown = true
-			continue
-		}
+	eval := summarizeBoolValues(bools)
+	result := f.resolveCompositeOutcome(eval)
 
-		if elem.IsNull() {
-			if f.allMustPass {
-				resp.Result = function.NewResultData(basetypes.NewBoolValue(false))
-				return
-			}
-			continue
-		}
+	resp.Result = function.NewResultData(result)
+}
 
-		value := elem.ValueBool()
-		if f.allMustPass && !value {
-			resp.Result = function.NewResultData(basetypes.NewBoolValue(false))
-			return
-		}
-		if !f.allMustPass && value {
-			resp.Result = function.NewResultData(basetypes.NewBoolValue(true))
-			return
+type boolEvaluation struct {
+	anyTrue    bool
+	anyFalse   bool
+	anyUnknown bool
+}
+
+func summarizeBoolValues(values []basetypes.BoolValue) boolEvaluation {
+	var eval boolEvaluation
+
+	for _, value := range values {
+		switch {
+		case value.IsUnknown():
+			eval.anyUnknown = true
+		case value.IsNull():
+			eval.anyFalse = true
+		case value.ValueBool():
+			eval.anyTrue = true
+		default:
+			eval.anyFalse = true
 		}
 	}
 
-	if encounteredUnknown {
-		resp.Result = function.NewResultData(types.BoolUnknown())
-		return
-	}
+	return eval
+}
 
+func (f *compositeValidationFunction) resolveCompositeOutcome(eval boolEvaluation) basetypes.BoolValue {
 	if f.allMustPass {
-		resp.Result = function.NewResultData(basetypes.NewBoolValue(true))
-	} else {
-		resp.Result = function.NewResultData(basetypes.NewBoolValue(false))
+		if eval.anyFalse {
+			return basetypes.NewBoolValue(false)
+		}
+		if eval.anyUnknown {
+			return basetypes.NewBoolUnknown()
+		}
+		return basetypes.NewBoolValue(true)
 	}
+
+	if eval.anyTrue {
+		return basetypes.NewBoolValue(true)
+	}
+
+	if eval.anyUnknown {
+		return basetypes.NewBoolUnknown()
+	}
+
+	return basetypes.NewBoolValue(false)
 }
 
 func NewAllValidFunction() function.Function {
