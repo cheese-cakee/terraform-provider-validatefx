@@ -35,6 +35,11 @@ locals {
     "14155552671",
   ]
 
+  url_values = [
+    "https://example.com",
+    "ftp://example.com",
+  ]
+
   domains = [
     "example.com",
     "invalid..domain",
@@ -137,6 +142,13 @@ locals {
     for value in local.phone_numbers : {
       value = value
       valid = provider::validatefx::phone(value)
+    }
+  ]
+
+  url_results = [
+    for value in local.url_values : {
+      value = value
+      valid = provider::validatefx::url(value)
     }
   ]
 
