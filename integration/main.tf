@@ -13,36 +13,44 @@ locals {
   emails = [
     "alice@example.com",
     "bad-email",
+    " user@example.com ",
+    null,
   ]
 
   uuids = [
     "d9428888-122b-11e1-b85c-61cd3cbb3210",
+    "d9428888-122b-11e1-b85c-61cd3cbb3210?query=name",
     "not-a-uuid",
   ]
 
   base64_values = [
     "U29sdmVkIQ==",
+    " U29sdmVkIQ== ",
     "invalid base64",
   ]
 
   credit_cards = [
     "4532015112830366",
     "4532015112830367",
+    " 4532-0151-1283-0366 ",
   ]
 
   phone_numbers = [
     "+14155552671",
     "14155552671",
+    "+447911123456",
   ]
 
   url_values = [
     "https://example.com",
     "ftp://example.com",
+    "HTTP://legacy.example.com",
   ]
 
   domains = [
     "example.com",
     "invalid..domain",
+    "sub.dash-domain.com",
   ]
 
   json_payloads = [
@@ -55,12 +63,14 @@ locals {
     "1.0.0",
     "v1.0.0",
     "1.0",
+    "1.0.0-alpha+build.1",
   ]
 
   ip_values = [
     "127.0.0.1",
     "::1",
     "999.999.999.999",
+    "2001:db8::1",
   ]
 
   regex_samples = [
@@ -72,12 +82,17 @@ locals {
       value   = "Invalid-User"
       pattern = "^[a-z0-9_]+$"
     },
+    {
+      value   = "abc"
+      pattern = ""
+    },
   ]
 
   email_results = [
     for value in local.emails : {
-      value = value
-      valid = provider::validatefx::email(value)
+      value   = value
+      trimmed = trimspace(value)
+      valid   = provider::validatefx::email(trimspace(value))
     }
   ]
 
