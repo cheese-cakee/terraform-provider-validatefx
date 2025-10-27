@@ -1,9 +1,29 @@
 ---
 page_title: "validatefx Provider"
 description: |-
-  Terraform provider delivering reusable validation functions for configuration inputs.
+  The validatefx provider delivers reusable validation helpers that can be invoked from Terraform expressions.
 ---
 
 {{ template "provider_header" . }}
-{{ template "examples" . }}
+
+## Getting Started
+
+```hcl
+terraform {
+  required_providers {
+    validatefx = {
+      source  = "The-DevOps-Daily/validatefx"
+      version = "~> 0.1"
+    }
+  }
+}
+
+provider "validatefx" {}
+
+locals {
+  email_is_valid = provider::validatefx::email("user@example.com")
+}
+```
+
 {{ template "schema" . }}
+{{ template "examples" . }}

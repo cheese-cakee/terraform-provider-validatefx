@@ -3,12 +3,12 @@
 page_title: "validatefx Provider"
 subcategory: ""
 description: |-
-  
+  The validatefx provider exposes a suite of reusable validation functions that can be invoked from Terraform expressions using the provider::validatefx::<name> syntax.
 ---
 
 # validatefx Provider
 
-
+The validatefx provider exposes a suite of reusable validation functions that can be invoked from Terraform expressions using the `provider::validatefx::<name>` syntax.
 
 
 
