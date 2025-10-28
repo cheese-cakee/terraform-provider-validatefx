@@ -84,15 +84,15 @@ locals {
     },
     {
       value   = "abc"
-      pattern = ""
+      pattern = "abc"
     },
   ]
 
   email_results = [
     for value in local.emails : {
       value   = value
-      trimmed = try(trimspace(value), "")
-      valid   = trimmed != "" ? provider::validatefx::email(trimmed) : false
+      trimmed = value != null ? trimspace(value) : ""
+      valid   = trimmed != "" && provider::validatefx::email(trimmed)
     }
   ]
 
