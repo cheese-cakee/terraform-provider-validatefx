@@ -1,5 +1,26 @@
 # Changelog
 
+## [0.1.3] - 2025-10-28
+
+### Features
+
+- Add an HTTP/HTTPS URL validator exposed as `provider::validatefx::url`, including schema tests and Terraform coverage (`faf98d4`, `6a545cf`, `51bef43`).
+- Expose provider metadata through the new `provider::validatefx::version` function with integration coverage and documentation updates (`9cdba92`, `84ba24d`, `18dd815`, `81e29af`).
+
+### Improvements
+
+- Expand Terraform integration scenarios to exercise additional validators and the provider version endpoint (`211d656`, `bec4e33`, `c6a6c4f`).
+- Add defensive tests ensuring string validation functions surface diagnostics for non-string inputs (`c386eb0`, `e61d50b`).
+- Restructure examples and documentation to streamline generation and add a provider quick-start snippet (`7027ef8`, `86db796`, `f67b9b2`, `9472110`).
+
+### Bug Fixes
+
+- Harden URL validation behavior and align imports and formatting (`860cb71`, `6a545cf`).
+- Stabilize integration expectations by correcting email/base64 fixtures and handling null inputs (`6992130`, `5a01c2c`).
+- Resolve intermittent test failures surfaced during integration expansion (`bfdba96`, `5676adc`).
+
+---
+
 ## [0.1.2] - 2025-10-27
 
 ### Features
