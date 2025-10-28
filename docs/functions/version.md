@@ -10,7 +10,28 @@ description: |-
 
 Returns the provider build version as a string for diagnostics and debugging.
 
+## Example Usage
 
+```terraform
+terraform {
+  required_providers {
+    validatefx = {
+      source  = "The-DevOps-Daily/validatefx"
+      version = ">= 0.0.1"
+    }
+  }
+}
+
+provider "validatefx" {}
+
+locals {
+  provider_version = provider::validatefx::version()
+}
+
+output "validatefx_version" {
+  value = local.provider_version
+}
+```
 
 ## Signature
 
