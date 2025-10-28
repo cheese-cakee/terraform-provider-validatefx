@@ -25,6 +25,7 @@ type validateFXProvider struct {
 // New returns a new instance of the ValidateFX provider factory function.
 func New(version string) func() provider.Provider {
 	return func() provider.Provider {
+		functions.SetProviderVersion(version)
 		return &validateFXProvider{
 			version: version,
 		}
