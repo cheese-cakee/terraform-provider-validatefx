@@ -79,6 +79,7 @@ Example usage in `examples/basic/main.tf`.
 | `semver` | Validate that a string follows Semantic Versioning (SemVer 2.0.0). |
 | `url` | Validate that a string is an HTTP(S) URL. |
 | `uuid` | Validate that a string is an RFC 4122 UUID (versions 1-5). |
+| `version` | Return the provider version string. |
 
 
 ---
