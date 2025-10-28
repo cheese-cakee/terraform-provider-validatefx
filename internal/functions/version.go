@@ -22,6 +22,11 @@ func SetProviderVersion(version string) {
 	providerVersion = basetypes.NewStringValue(version)
 }
 
+// ProviderVersion returns the current provider version value.
+func ProviderVersion() basetypes.StringValue {
+	return providerVersion
+}
+
 // NewVersionFunction exposes the provider version as a Terraform function.
 func NewVersionFunction() function.Function {
 	return &versionFunction{}
