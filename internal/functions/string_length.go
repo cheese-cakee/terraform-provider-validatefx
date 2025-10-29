@@ -79,6 +79,24 @@ func (stringLengthFunction) Run(ctx context.Context, req function.RunRequest, re
 		return
 	}
 
+	validation := frameworkvalidator.StringResponse{}
+
+	if err := validateStringLength(ctx, value, min, max, &validation); err != nil {
+		resp.Result = function.NewResultData(basetypes.NewBoolValue(false))
+		resp.Error = err
+		return
+	}
+
+	if validation.Diagnostics.HasError() {
+		resp.Result = function.NewResultData(basetypes.NewBoolValue(false))
+		resp.Error = function.FuncErrorFromDiags(ctx, diag.Diagnostics(validation.Diagnostics))
+		return
+	}
+
+	resp.Result = function.NewResultData(basetypes.NewBoolValue(true))
+}
+
+func validateStringLength(ctx context.Context, value types.String, min types.Int64, max types.Int64, validation *frameworkvalidator.StringResponse) *function.FuncError {
 	var minPtr *int
 	var maxPtr *int
 
@@ -93,18 +111,14 @@ func (stringLengthFunction) Run(ctx context.Context, req function.RunRequest, re
 	}
 
 	validator := validators.NewStringLengthValidator(minPtr, maxPtr)
-
-	validation := frameworkvalidator.StringResponse{}
 	validator.ValidateString(ctx, frameworkvalidator.StringRequest{
 		ConfigValue: value,
 		Path:        path.Root("value"),
-	}, &validation)
+	}, validation)
 
 	if validation.Diagnostics.HasError() {
-		resp.Result = function.NewResultData(basetypes.NewBoolValue(false))
-		resp.Error = function.FuncErrorFromDiags(ctx, diag.Diagnostics(validation.Diagnostics))
-		return
+		return function.FuncErrorFromDiags(ctx, diag.Diagnostics(validation.Diagnostics))
 	}
 
-	resp.Result = function.NewResultData(basetypes.NewBoolValue(true))
+	return nil
 }
