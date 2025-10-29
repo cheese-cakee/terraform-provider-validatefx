@@ -1,4 +1,3 @@
-
 terraform {
   required_providers {
     validatefx = {
@@ -47,8 +46,8 @@ locals {
   ]
 
   json_payloads = [
-    "{"key": "value"}",
-    "{"invalid":",
+    "{\"key\": \"value\"}",
+    "{\"invalid\":",
     "[]",
   ]
 
