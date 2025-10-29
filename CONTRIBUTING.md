@@ -43,8 +43,17 @@ Before opening a PR, please ensure:
 - Commits are descriptive and scoped to a logical change.
 - PR includes a brief summary explaining motivation and testing performed.
 
-## Reporting Issues
 
-If you encounter bugs or have feature ideas, please open an issue with details about the problem, reproduction steps, and environment information (Go version, OS, etc.).
-
-We appreciate your contributions—thank you for helping improve the provider!
+### Pre-commit Hooks
+This repository uses [pre-commit](https://pre-commit.com/) to automatically format and lint code before it is committed. This helps maintain code quality and consistency.
+#### Installation
+To use the hooks, you must install them locally:
+1.  Install the `pre-commit` tool. A common way is with Python's package manager:
+    ```bash
+    pip install pre-commit
+    ```
+2.  Install the hooks in this repository. From the root directory, run:
+    ```bash
+    pre-commit install
+    ```
+After this, the hooks (including `terraform fmt`, `go fmt`, and `make lint`) will run automatically on every `git commit`. If they find an issue, they may fix it for you or stop the commit so you can fix it manually.
