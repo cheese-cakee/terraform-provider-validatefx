@@ -1,0 +1,22 @@
+[
+  {
+    "title": "Add CIDR block validator function",
+    "body": "Implement a new `provider::validatefx::cidr` function that validates IPv4 and IPv6 CIDR blocks.\n\nRequirements:\n- Add a core validator under `internal/validators/` with success, failure, and null/unknown test cases.\n- Expose the validator as a Terraform function with docs, examples, and integration coverage.\n- Ensure diagnostics clearly identify malformed CIDR prefixes and mask ranges.",
+    "labels": ["enhancement"]
+  },
+  {
+    "title": "Add MAC address validator function",
+    "body": "Introduce a `provider::validatefx::mac_address` validator that supports colon, dash, and compact formats.\n\nDefinition of done:\n- Shared helper that normalizes case and separators before validation.\n- Unit tests covering valid and invalid examples, including too-short/long addresses.\n- Terraform function, docs, and examples mirroring other string validators.",
+    "labels": ["enhancement", "good first issue"]
+  },
+  {
+    "title": "Add hostname validator aligned with RFC 1123",
+    "body": "Provide a hostname validator that enforces RFC 1123 label and length requirements.\n\nTasks:\n- Support multi-label hostnames, punycode prefixes, and reject underscores.\n- Add unit tests and integration cases demonstrating accepted and rejected hostnames.\n- Document edge cases (e.g., trailing dots) in the function reference.",
+    "labels": ["enhancement"]
+  },
+  {
+    "title": "Add ISO 8601 datetime validator with optional layouts",
+    "body": "Create a configurable validator that accepts ISO 8601 datetimes with optional layout overrides.\n\nExpectations:\n- Default to strict RFC 3339 format but allow callers to provide alternative layouts.\n- Produce diagnostics that highlight the first invalid segment (date vs time component).\n- Include examples showing usage with Terraform variables and locals.",
+    "labels": ["enhancement"]
+  }
+]
