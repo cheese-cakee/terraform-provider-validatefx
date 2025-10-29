@@ -96,3 +96,9 @@ Open to PRs! Good first issues include adding new validators like `is_hostname`,
 ## 📜 License
 
 MIT © 2025 [DevOps Daily](https://github.com/The-DevOps-Daily)
+
+## Thanks to all contributors ❤
+
+[![Contributors](https://contrib.rocks/image?repo=The-DevOps-Daily/terraform-provider-validatefx)](https://github.com/The-DevOps-Daily/terraform-provider-validatefx/graphs/contributors)
+
+
