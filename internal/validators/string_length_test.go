@@ -11,8 +11,8 @@ import (
 
 func TestStringLengthValidator(t *testing.T) {
 	ctx := context.Background()
-	min := 2
-	max := 5
+	minLen := 2
+	maxLen := 5
 
 	tests := []struct {
 		name    string
@@ -34,7 +34,7 @@ func TestStringLengthValidator(t *testing.T) {
 				Path:        path.Root("test_attr"),
 			}
 			var resp validator.StringResponse
-			v := NewStringLengthValidator(&min, &max)
+			v := NewStringLengthValidator(&minLen, &maxLen)
 			v.ValidateString(ctx, req, &resp)
 
 			if resp.Diagnostics.HasError() != tt.wantErr {

@@ -20,12 +20,12 @@ type StringLengthValidator struct {
 var _ validator.String = (*StringLengthValidator)(nil)
 
 // NewStringLengthValidator creates a new instance.
-func NewStringLengthValidator(min, max *int) StringLengthValidator {
-	return StringLengthValidator{Min: min, Max: max}
+func NewStringLengthValidator(minLen, maxLen *int) StringLengthValidator {
+	return StringLengthValidator{Min: minLen, Max: maxLen}
 }
 
 // ValidateString performs the actual validation logic.
-func (v StringLengthValidator) ValidateString(ctx context.Context, req validator.StringRequest, resp *validator.StringResponse) {
+func (v StringLengthValidator) ValidateString(_ context.Context, req validator.StringRequest, resp *validator.StringResponse) {
 	// Skip validation for unknown or null values
 	if req.ConfigValue.IsUnknown() || req.ConfigValue.IsNull() {
 		return
@@ -52,7 +52,7 @@ func (v StringLengthValidator) ValidateString(ctx context.Context, req validator
 }
 
 // Description returns a human-readable description of the validator.
-func (v StringLengthValidator) Description(ctx context.Context) string {
+func (v StringLengthValidator) Description(_ context.Context) string {
 	switch {
 	case v.Min != nil && v.Max != nil:
 		return fmt.Sprintf("string length must be between %d and %d characters", *v.Min, *v.Max)
