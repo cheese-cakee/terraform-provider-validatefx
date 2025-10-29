@@ -1,0 +1,45 @@
+package validators
+
+import (
+	"context"
+	"testing"
+
+	"github.com/hashicorp/terraform-plugin-framework/path"
+	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
+	"github.com/hashicorp/terraform-plugin-framework/types"
+)
+
+func TestStringLengthValidator(t *testing.T) {
+	ctx := context.Background()
+	minLen := 2
+	maxLen := 5
+
+	tests := []struct {
+		name    string
+		val     types.String
+		wantErr bool
+	}{
+		{"null value", types.StringNull(), false},
+		{"unknown value", types.StringUnknown(), false},
+		{"too short", types.StringValue("a"), true},
+		{"within range", types.StringValue("abcd"), false},
+		{"too long", types.StringValue("abcdefg"), true},
+		{"multi-byte emoji", types.StringValue("😊😊"), false},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			req := validator.StringRequest{
+				ConfigValue: tt.val,
+				Path:        path.Root("test_attr"),
+			}
+			var resp validator.StringResponse
+			v := NewStringLengthValidator(&minLen, &maxLen)
+			v.ValidateString(ctx, req, &resp)
+
+			if resp.Diagnostics.HasError() != tt.wantErr {
+				t.Errorf("Test %s failed: expected error=%v, got %v", tt.name, tt.wantErr, resp.Diagnostics.HasError())
+			}
+		})
+	}
+}
