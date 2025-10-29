@@ -1,3 +1,56 @@
+## [2025-10-29]
+
+- Merge pull request #135 from The-DevOps-Daily/fix/string-length-integration (75379a4)
+  * Fix failing tests (be9d1db)
+  * Refactor string length function logic (abecf39)
+  * Integrate string length validator (6b504be)
+
+- Merge pull request #132 from Madhur-Dodake/feat/string-length-validator-issue-105 (9b98b71) #105
+  * chore: run gofmt to fix lint formatting issue (c77e1e6)
+  * fix: rename min/max and remove unused ctx to satisfy linter (7bc3f30)
+  * feat(validators): add string length validator (#105) (986d9c4)
+
+- Merge pull request #133 from The-DevOps-Daily/feature/cidr-validator (f1fc4b7) #100
+  * Fix integration CIDR formatting (0809e49)
+  * Refine CIDR docs and integration (53cfc96)
+  * Add CIDR validation function (#100) (9a3037c)
+
+- Merge pull request #128 from The-DevOps-Daily/dependabot/github_actions/actions/setup-go-6 (cb51c3e)
+  * Bump actions/setup-go from 5 to 6 (0e44d89)
+
+- Merge pull request #130 from Rachitb0611/docs/add-contributors-badge (9e90793)
+  * docs: Add contributors badge to README (e5b1c5a)
+
+- Merge pull request #129 from The-DevOps-Daily/dependabot/github_actions/goreleaser/goreleaser-action-6 (a69aba5)
+  * Bump goreleaser/goreleaser-action from 5 to 6 (526fb34)
+
+- Merge pull request #127 from The-DevOps-Daily/dependabot/github_actions/actions/upload-artifact-5 (e74f0ee)
+  * Bump actions/upload-artifact from 4 to 5 (b9a95d6)
+
+- Merge pull request #126 from The-DevOps-Daily/dependabot/github_actions/actions/checkout-5 (6babd66)
+  * Bump actions/checkout from 4 to 5 (1e87f4d)
+
+- Merge pull request #124 from cheese-cakee/main (501493a)
+  * Create dependabot.yml (a094c56)
+  * Delete .github/workflows/dependabot.yml (bf3180c)
+  * Create dependabot.yml (d30096c)
+
+- Merge pull request #125 from The-DevOps-Daily/auto-issue-creation (7a2eb13)
+  * Add auto-issue creation script for future reference (b47e6a0)
+
+- Merge pull request #1 from The-DevOps-Daily/main (7f165d6)
+  * docs: add OS-specific installation and troubleshooting guide for ValidateFX provider (e3c639e)
+
+- Merge pull request #123 from Madhur-Dodake/docs/os-installation-111 (3165060)
+  * docs: add OS-specific installation and troubleshooting guide for ValidateFX provider (e3c639e)
+
+- Merge pull request #120 from cheese-cakee/main (4e37890)
+  * Update CONTRIBUTING.md (1f05187)
+  * Create .pre-commit-config.yaml (e9bb56f)
+
+
+
+
 # Changelog
 
 ## [0.1.3] - 2025-10-28
