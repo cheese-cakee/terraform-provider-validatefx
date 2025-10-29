@@ -3,7 +3,6 @@ package functions
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/function"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	frameworkvalidator "github.com/hashicorp/terraform-plugin-framework/schema/validator"
@@ -80,23 +79,17 @@ func (stringLengthFunction) Run(ctx context.Context, req function.RunRequest, re
 	}
 
 	validation := frameworkvalidator.StringResponse{}
-
-	if err := validateStringLength(ctx, value, min, max, &validation); err != nil {
-		resp.Result = function.NewResultData(basetypes.NewBoolValue(false))
-		resp.Error = err
-		return
-	}
+	validateStringLength(ctx, value, min, max, &validation)
 
 	if validation.Diagnostics.HasError() {
 		resp.Result = function.NewResultData(basetypes.NewBoolValue(false))
-		resp.Error = function.FuncErrorFromDiags(ctx, diag.Diagnostics(validation.Diagnostics))
 		return
 	}
 
 	resp.Result = function.NewResultData(basetypes.NewBoolValue(true))
 }
 
-func validateStringLength(ctx context.Context, value types.String, min types.Int64, max types.Int64, validation *frameworkvalidator.StringResponse) *function.FuncError {
+func validateStringLength(ctx context.Context, value types.String, min types.Int64, max types.Int64, validation *frameworkvalidator.StringResponse) {
 	var minPtr *int
 	var maxPtr *int
 
@@ -115,10 +108,4 @@ func validateStringLength(ctx context.Context, value types.String, min types.Int
 		ConfigValue: value,
 		Path:        path.Root("value"),
 	}, validation)
-
-	if validation.Diagnostics.HasError() {
-		return function.FuncErrorFromDiags(ctx, diag.Diagnostics(validation.Diagnostics))
-	}
-
-	return nil
 }
