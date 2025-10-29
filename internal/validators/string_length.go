@@ -8,7 +8,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 )
 
-
 // StringLengthValidator enforces minimum and/or maximum string length.
 // If min or max are nil, that side of validation is skipped.
 type StringLengthValidator struct {
