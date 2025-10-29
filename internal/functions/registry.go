@@ -26,6 +26,7 @@ func ProviderFunctionFactories() []func() function.Function {
 		NewAllValidFunction,
 		NewAnyValidFunction,
 		NewVersionFunction,
+		NewCIDRFunction,
 	}
 }
 

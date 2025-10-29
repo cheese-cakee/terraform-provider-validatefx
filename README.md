@@ -72,6 +72,7 @@ Example usage in `examples/basic/main.tf`.
 | `any_valid` | Return true when any provided validation check evaluates to true. |
 | `assert` | Assert a condition with a custom error message. |
 | `base64` | Validate that a string is Base64 encoded. |
+| `cidr` | Validate that a string is an IPv4 or IPv6 CIDR block. |
 | `credit_card` | Validate that a string is a credit card number using the Luhn algorithm. |
 | `domain` | Validate that a string is a compliant domain name. |
 | `email` | Validate that a string is an RFC 5322 compliant email address. |
@@ -100,5 +101,4 @@ MIT © 2025 [DevOps Daily](https://github.com/The-DevOps-Daily)
 ## Thanks to all contributors ❤
 
 [![Contributors](https://contrib.rocks/image?repo=The-DevOps-Daily/terraform-provider-validatefx)](https://github.com/The-DevOps-Daily/terraform-provider-validatefx/graphs/contributors)
-
 

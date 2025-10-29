@@ -74,6 +74,12 @@ locals {
     },
   ]
 
+  cidr_values = [
+    "10.0.0.0/24",
+    "2001:db8::/48",
+    "bad-cidr",
+  ]
+
   email_results = [
     for value in local.emails : {
       value = value
@@ -152,6 +158,13 @@ locals {
     }
   ]
 
+  cidr_results = [
+    for value in local.cidr_values : {
+      value = value
+      valid = provider::validatefx::cidr(value)
+    }
+  ]
+
   all_valid_results = [
     for values in [
       [true, true, true],
@@ -189,6 +202,8 @@ locals {
     length("test") == 4,
     "String length assertion failed!"
   )
+
+  provider_version = provider::validatefx::version()
 }
 
 output "validatefx_email" {
@@ -231,6 +246,14 @@ output "validatefx_phone" {
   value = local.phone_results
 }
 
+output "validatefx_url" {
+  value = local.url_results
+}
+
+output "validatefx_cidr" {
+  value = local.cidr_results
+}
+
 output "validatefx_all_valid" {
   value = local.all_valid_results
 }
@@ -245,4 +268,8 @@ output "validatefx_assert" {
     uuid_check       = local.assert_uuid_valid
     custom_condition = local.assert_custom_condition
   }
+}
+
+output "validatefx_version" {
+  value = local.provider_version
 }
