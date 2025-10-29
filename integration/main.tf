@@ -144,6 +144,19 @@ locals {
     }
   ]
 
+  string_length_values = [
+    {
+      value      = "short"
+      min_length = 3
+      max_length = 10
+    },
+    {
+      value      = "extremely-long-string"
+      min_length = 3
+      max_length = 10
+    },
+  ]
+
   phone_results = [
     for value in local.phone_numbers : {
       value = value
@@ -162,6 +175,13 @@ locals {
     for value in local.cidr_values : {
       value = value
       valid = provider::validatefx::cidr(value)
+    }
+  ]
+
+  string_length_results = [
+    for item in local.string_length_values : {
+      value = item.value
+      valid = provider::validatefx::string_length(item.value, item.min_length, item.max_length)
     }
   ]
 
@@ -252,6 +272,10 @@ output "validatefx_url" {
 
 output "validatefx_cidr" {
   value = local.cidr_results
+}
+
+output "validatefx_string_length" {
+  value = local.string_length_results
 }
 
 output "validatefx_all_valid" {
