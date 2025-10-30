@@ -21,12 +21,9 @@ if [[ -z "$commits" ]]; then
   exit 0
 fi
 
-section_date=$(date +"%Y-%m-%d")
-section_header="## [${section_date}]"
+regular_changes=()
+dependency_updates=()
 
-mapfile -t entries < <(git log "${latest_tag}..HEAD" --pretty=format:"%s (%h)" --no-merges)
-
-notes=()
 while IFS= read -r merge_commit; do
   title=$(git log -1 --pretty=format:"%s" "$merge_commit")
   body=$(git log -1 --pretty=format:"%b" "$merge_commit")
@@ -37,35 +34,46 @@ while IFS= read -r merge_commit; do
   fi
 
   short_sha=${merge_commit:0:7}
-  notes+=("- ${title} (${short_sha})${issue}")
+  entry="- ${title} (${short_sha})${issue}"
 
-  mapfile -t non_merge < <(git log "$merge_commit^1..$merge_commit^2" --pretty=format:"%s (%h)" --no-merges)
-  for n in "${non_merge[@]}"; do
-    notes+=("  * ${n}")
-  done
-  notes+=("")
+  if [[ "${title,,}" == *"dependabot"* ]]; then
+    dependency_updates+=("$entry")
+  else
+    regular_changes+=("$entry")
+  fi
+
 done <<< "$commits"
 
-new_section="$section_header
+new_section="## [Unreleased]\n\n"
 
-"
-for note in "${notes[@]}"; do
-  new_section+="$note
-"
-done
-new_section+="
-"
+if ((${#regular_changes[@]} > 0)); then
+  new_section+="### Changes\n\n"
+  for item in "${regular_changes[@]}"; do
+    new_section+="${item}\n"
+  done
+  new_section+="\n"
+fi
+
+if ((${#dependency_updates[@]} > 0)); then
+  new_section+="### Dependency Updates\n\n"
+  for item in "${dependency_updates[@]}"; do
+    new_section+="${item}\n"
+  done
+  new_section+="\n"
+fi
 
 if [[ -f "$CHANGELOG" ]]; then
   tmp=$(mktemp)
   {
-    echo "$new_section"
+    read -r first_line < "$CHANGELOG"
+    echo "$first_line"
     echo
-    cat "$CHANGELOG"
+    echo -e "$new_section"
+    tail -n +2 "$CHANGELOG"
   } > "$tmp"
   mv "$tmp" "$CHANGELOG"
 else
-  echo -e "$new_section" > "$CHANGELOG"
+  echo -e "# Changelog\n\n$new_section" > "$CHANGELOG"
 fi
 
 echo "Changelog updated with commits since $latest_tag."
