@@ -1,0 +1,78 @@
+name-template: 'v$RESOLVED_VERSION'
+tag-template: 'v$RESOLVED_VERSION'
+change-template: '- $TITLE (#$NUMBER) @$AUTHOR'
+change-title-escapes: '\\<>&'
+
+categories:
+  - title: '🚀 Features'
+    labels:
+      - feature
+      - enhancement
+      - semver:minor
+  - title: '🐛 Bug Fixes'
+    labels:
+      - bug
+      - bugfix
+      - fix
+      - semver:patch
+  - title: '🧰 Maintenance'
+    labels:
+      - chore
+      - maintenance
+      - refactor
+      - dependencies
+  - title: '📚 Documentation'
+    labels:
+      - documentation
+      - docs
+
+version-resolver:
+  major:
+    labels:
+      - breaking-change
+      - semver:major
+  minor:
+    labels:
+      - feature
+      - enhancement
+      - semver:minor
+  patch:
+    labels:
+      - bug
+      - bugfix
+      - fix
+      - semver:patch
+  default: patch
+
+exclude-labels:
+  - skip-changelog
+
+template: |
+  ## What's Changed
+  $CHANGES
+
+  ## Contributors
+  $CONTRIBUTORS
+
+autolabeler:
+  - label: documentation
+    files:
+      - '**/*.md'
+  - label: dependencies
+    files:
+      - 'go.mod'
+      - 'go.sum'
+      - '.github/workflows/**'
+  - label: chore
+    title:
+      - '/^chore/i'
+  - label: feature
+    title:
+      - '/^feat/i'
+  - label: bug
+    title:
+      - '/^fix/i'
+
+replacers:
+  - search: '/Merge pull request #(\d+) from .*\n\n/'
+    replace: ''
