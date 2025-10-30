@@ -1,5 +1,28 @@
 # Changelog
 
+## [Unreleased]
+
+### Changes
+
+- Merge pull request #135 from The-DevOps-Daily/fix/string-length-integration (75379a4)
+- Merge pull request #132 from Madhur-Dodake/feat/string-length-validator-issue-105 (9b98b71) #105
+- Merge pull request #133 from The-DevOps-Daily/feature/cidr-validator (f1fc4b7) #100
+- Merge pull request #130 from Rachitb0611/docs/add-contributors-badge (9e90793)
+- Merge pull request #124 from cheese-cakee/main (501493a)
+- Merge pull request #125 from The-DevOps-Daily/auto-issue-creation (7a2eb13)
+- Merge pull request #1 from The-DevOps-Daily/main (7f165d6)
+- Merge pull request #123 from Madhur-Dodake/docs/os-installation-111 (3165060)
+- Merge pull request #120 from cheese-cakee/main (4e37890)
+
+### Dependency Updates
+
+- Merge pull request #128 from The-DevOps-Daily/dependabot/github_actions/actions/setup-go-6 (cb51c3e)
+- Merge pull request #129 from The-DevOps-Daily/dependabot/github_actions/goreleaser/goreleaser-action-6 (a69aba5)
+- Merge pull request #127 from The-DevOps-Daily/dependabot/github_actions/actions/upload-artifact-5 (e74f0ee)
+- Merge pull request #126 from The-DevOps-Daily/dependabot/github_actions/actions/checkout-5 (6babd66)
+
+
+
 ## [0.1.3] - 2025-10-28
 
 ### Features
